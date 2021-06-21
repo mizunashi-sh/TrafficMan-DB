@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <title>500-内部错误</title>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" href="{% static 'TrafficMan/css/500.css' %}" />
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,300,400" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'TrafficMan/images/favicon.png' %}"/>
+</head>
+
+<body>
+    <body class="loading">
+        <h1>500</h1>
+        <h2>我们的内部程序似乎出了点问题</h2>
+        <div class="gears">
+            <div class="gear one">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="gear two">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="gear three">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+        {% load static %}
+        <script src="{% static 'TrafficMan/js/500.js' %}"></script>
+    </body>
+</body>
+
+</html>

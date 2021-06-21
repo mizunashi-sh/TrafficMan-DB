@@ -1,0 +1,105 @@
+<html>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>个人中心-道路交通违章信息管理系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'TrafficMan/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <link rel="icon" type="image/png" href="{% static 'TrafficMan/images/favicon.png' %}"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">道路交通违章信息管理系统</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home"></i>个人中心<span class="visually-hidden">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vehicles"><i class="fas fa-car"></i>我的车辆</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/violations"><i class="fas fa-exclamation-circle"></i>我的违章</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle m-r-auto" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>{{ username }}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i>登出</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-5"></div>
+        {%if is_warning %}
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <h4 class="alert-heading">注意</h4>
+            <p class="mb-0">{{ warning_msg }}</p>
+        </div>
+        {% endif %}
+        <div class="alert alert-dismissible alert-warning" style="display: none" id="points-zero-warning">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <h4 class="alert-heading">注意</h4>
+            <p class="mb-0">您的驾驶证分数已被扣完，请及时前往主管部门参加道路安全交通学习。</p>
+        </div>
+        <div class="page-header">
+            <h2>欢迎，{{ username }}</h2>
+            <span id="jinrishici-sentence"></span>
+        </div>
+        <div class="row mt-5"></div>
+        <h3>我的信息</h3>
+        <p id="no_info_msg" class="text-muted">{{ no_info_msg }}</p>
+        <div class="card col-lg-6" id="info_block">
+            <div class="card-body">
+                <p class="card-text">姓名：{{ user_info.name }}</p>
+                <p class="card-text">身份证号：{{ user_info.identity }}</p>
+                <p class="card-text">性别：{{ user_info.get_gender_display }}</p>
+                <p class="card-text">民族：{{ user_info.ethnicity }}</p>
+                <p class="card-text">国籍：{{ user_info.nationality }}</p>
+                <p class="card-text">住址：{{ user_info.address }}</p>
+                <p class="card-text">电话：{{ user_info.telephone }}</p>
+                <p class="card-text">手机：{{ user_info.mobile }}</p>
+                <p class="card-text">出生日期：{{ user_info.birth }}</p>
+            </div>
+        </div>
+        <div class="row mt-5"></div>
+        <h3>我的驾驶证</h3>
+        <p id="no_license_msg" class="text-muted">{{ no_driverlicense_msg }}</p>
+        <div class="card col-lg-6" id="license_block">
+            <div class="card-body">
+                <p class="card-text">签发日期：{{ driver_license.issue_date }}</p>
+                <p class="card-text">准驾车型：{{ driver_license.get_motor_type_display }}</p>
+                <p class="card-text">有效起始日期：{{ driver_license.begin_date }}</p>
+                <p class="card-text">有效年限：{{ driver_license.valid_duration }} 年</p>
+                <p class="card-text" id="license-points">分数：{{ driver_license.points }}</p>
+                <p class="card-text">状态：{{ driver_license.get_status_display }}</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        if(document.getElementById("no_info_msg").innerText!="") {
+            var info_block = document.getElementById("info_block")
+            info_block.style.display = 'none'
+        }
+        if(document.getElementById("no_license_msg").innerText!=""){
+            var license_block = document.getElementById("license_block")
+            license_block.style.display = 'none'
+        }
+        if(document.getElementById("license-points").innerText=="分数：0"){
+            var warning_block = document.getElementById("points-zero-warning")
+            warning_block.style.display = 'block'
+        }
+    </script>
+</body>
+</html>

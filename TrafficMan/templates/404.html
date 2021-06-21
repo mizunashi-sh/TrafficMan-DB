@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>404-找不到页面</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Muli:400" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+
+	<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" />
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="{% static 'TrafficMan/css/404.css' %}" />
+
+	<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="icon" type="image/png" href="{% static 'TrafficMan/images/favicon.png' %}"/>
+</head>
+
+<body>
+
+	<div id="notfound">
+		<div class="notfound-bg"></div>
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>404</h1>
+			</div>
+			<h2>找不到您所请求的内容</h2>
+			<form class="notfound-search">
+			</form>
+			<div class="notfound-social">
+			</div>
+			<a href="/">返回首页</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

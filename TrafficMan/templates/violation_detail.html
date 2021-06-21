@@ -1,0 +1,66 @@
+<html>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>违章详细信息-道路交通违章信息管理系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'TrafficMan/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+     <link rel="icon" type="image/png" href="{% static 'TrafficMan/images/favicon.png' %}"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">道路交通违章信息管理系统</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard"><i class="fas fa-home"></i>个人中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vehicles"><i class="fas fa-car"></i>我的车辆</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/violations"><i class="fas fa-exclamation-circle"></i>我的违章<span class="visually-hidden">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle m-r-auto" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>{{ username }}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i>登出</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-5"></div>
+        <div class="page-header">
+            <h2>违章信息</h2>
+        </div>
+        <div class="row mt-3"></div>
+        <div class="card col-lg-6">
+            <div class="card-body">
+                <p class="card-text">车牌号码：{{ violation.vehicle.plate_number }}</p>
+                <p class="card-text">时间：{{ violation.date }}</p>
+                <p class="card-text">类型：{{ violation.type }}</p>
+                <p class="card-text">区域：{{ violation.area }}</p>
+                <p class="card-text">地点：{{ violation.location }}</p>
+                <p class="card-text">扣分：{{ violation.point_minus }}</p>
+                <p class="card-text">罚款：{{ violation.fine }} 元</p>
+                <p class="card-text">缴纳截止日期：{{ violation.deadline }}</p>
+                <p class="card-text">是否缴纳：{{ violation.is_processed | yesno:"是,否,未知" }}</p>
+                <p class="card-text">驾驶员姓名：{{ driver.name }}</p>
+                <p class="card-text">驾驶员联系方式：{{ driver.mobile }}</p>
+                <p class="card-text">车主姓名：{{ owner.name }}</p>
+                <p class="card-text">车主联系方式：{{ owner.mobile }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

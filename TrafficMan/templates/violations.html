@@ -1,0 +1,119 @@
+<html>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的违章-道路交通违章信息管理系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'TrafficMan/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css">
+     <link rel="icon" type="image/png" href="{% static 'TrafficMan/images/favicon.png' %}"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">道路交通违章信息管理系统</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard"><i class="fas fa-home"></i>个人中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vehicles"><i class="fas fa-car"></i>我的车辆</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-exclamation-circle"></i>我的违章<span class="visually-hidden">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle m-r-auto" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>{{ username }}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i>登出</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-5"></div>
+        <div class="page-header">
+            <h2>我的违章</h2>
+            <p>以下列表显示了与您本人或您名下机动车关联的违章信息。</p>
+        </div>
+        <div class="row mt-3"></div>
+        {% if type == 'user' %}
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">与个人关联</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../vehicle">与机动车关联</a>
+            </li>
+        </ul>
+        {% else %}
+            <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="../user">与个人关联</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">与机动车关联</a>
+            </li>
+        </ul>
+        {% endif %}
+        <div class="row mt-3"></div>
+        <p id="no_violation_msg" class="text-muted">{{ no_violation_msg }}</p>
+        <div id="violation_block">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">违章类型</th>
+                        <th scope="col">车牌号</th>
+                        <th scope="col">时间</th>
+                        <th scope="col">地点</th>
+                        <th scope="col">罚款</th>
+                        <th scope="col">截止日期</th>
+                        <th scope="col">是否缴纳</th>
+                    </tr>
+                </thead>
+                {% for violation in violation_list %}
+                    <tr>
+                        <th scope="row"><a href="../{{ violation.id }}">{{ violation.type }}</a></th>
+                        <td>{{ violation.vehicle.plate_number }}</td>
+                        <td>{{ violation.date }}</td>
+                        <td>{{ violation.location }}</td>
+                        <td>{{ violation.fine }} 元</td>
+                        <td>{{ violation.deadline }}</td>
+                        <td>{{ violation.is_processed | yesno:"是,否,未知" }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div class="pagination" align="center">
+                <span class="step-links" style="alignment: center">
+                    {% if violation_list.has_previous %}
+                        <a href="?page={{ violation_list.previous_page_number }}">&laquo; </a>
+                    {% endif %}
+
+                    <span class="current">
+                        {{ violation_list.number }} / {{ violation_list.paginator.num_pages }}
+                    </span>
+
+                    {% if violation_list.has_next %}
+                        <a href="?page={{ violation_list.next_page_number }}">&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if(document.getElementById("no_violation_msg").innerText!="") {
+            var info_block = document.getElementById("violation_block")
+            info_block.style.display = 'none'
+        }
+    </script>
+</body>
+</html>
